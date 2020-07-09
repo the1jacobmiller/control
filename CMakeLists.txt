@@ -18,7 +18,6 @@ find_package(catkin REQUIRED COMPONENTS
   message_generation
   pcl_ros
   dbw_mkz_msgs
-  hmi
 )
 
 ################################################
@@ -38,7 +37,7 @@ find_package(catkin REQUIRED COMPONENTS
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES mpc
-  CATKIN_DEPENDS roscpp rospy std_msgs dbw_mkz_msgs hmi
+  CATKIN_DEPENDS roscpp rospy std_msgs dbw_mkz_msgs
 #  DEPENDS system_lib
 )
 

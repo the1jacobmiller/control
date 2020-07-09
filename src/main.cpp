@@ -17,7 +17,6 @@
 #include <visualization_msgs/Marker.h>
 #include <dbw_mkz_msgs/SteeringReport.h>
 #include <dbw_mkz_msgs/dbw_cmd.h>
-#include <hmi/HMIScreenCmd.h>
 
 using namespace std;
 
@@ -26,7 +25,7 @@ double localizer_roll, localizer_pitch, localizer_yaw, vehicle_speed_ms, steerin
 point localizer_position;
 Path target_path;
 
-ros::Publisher command_pub, hmi_screen_pub;
+ros::Publisher command_pub;
 ros::Timer mpc_timer;
 Visualizer vis;
 
@@ -101,12 +100,6 @@ void speedCallback(const std_msgs::Float32::ConstPtr &msg) {
   }
 
   target_speed = msg->data;
-
-  hmi::HMIScreenCmd hmi_screen_cmd;
-  hmi_screen_cmd.screen_key = 3;
-  hmi_screen_cmd.line1 = "Max Spd: " + to_string(int(max_speed));
-  hmi_screen_cmd.line2 = "Target Spd: " + to_string(int(target_speed));
-  hmi_screen_pub.publish(hmi_screen_cmd);
 }
 
 void control_callback(const ros::TimerEvent& event) {
@@ -192,12 +185,6 @@ void control_callback(const ros::TimerEvent& event) {
 
   ROS_WARN_STREAM("Steering Cmd: " << mpc_.steer);
   ROS_WARN_STREAM("Accel Cmd: " << mpc_.throttle << "\n");
-
-  hmi::HMIScreenCmd hmi_screen_cmd;
-  hmi_screen_cmd.screen_key = 0;
-  hmi_screen_cmd.line1 = "Steering: " + to_string(mpc_.steer);
-  hmi_screen_cmd.line2 = "Accel: " + to_string(mpc_.throttle);
-  hmi_screen_pub.publish(hmi_screen_cmd);
 }
 
 int main(int argc, char **argv) {
@@ -215,7 +202,6 @@ int main(int argc, char **argv) {
   vis.polyfit_pub = n.advertise<sensor_msgs::PointCloud2>("/control/polyfit", 1);
   vis.waypoint_pub = n.advertise<sensor_msgs::PointCloud2>("/control/waypoints", 1);
   vis.trajectory_pub = n.advertise<sensor_msgs::PointCloud2>("/control/predicted_trajectory", 1);
-  hmi_screen_pub = n.advertise<hmi::HMIScreenCmd>("/hmi/screen_cmd", 1);
 
   // Subscribers
   ros::Subscriber sub_trajectory = n.subscribe("/motion_planning/trajectory", 1, trajectoryCallback);
