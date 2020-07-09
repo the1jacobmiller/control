@@ -1,0 +1,38 @@
+build/
+devel/
+install/
+*/__pycache__/
+map_tile_data/*
+CMakeCache.txt
+src/CMakeLists.txt
+.vscode/
+
+
+#files being edited
+*~
+
+#data files
+*.bag
+*.json
+*.record
+*.csv
+*.ods
+progfile*
+core*
+
+# make and build files
+*.lst
+*.o
+*.eep
+*.lss
+*.map
+*.sym
+*.obj
+*.make
+*.cmake
+
+#exe
+
+*.exe
+*.out
+
